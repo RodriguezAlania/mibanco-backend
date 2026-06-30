@@ -12,7 +12,7 @@ const login = async (req, res) => {
     const result = await pool.query(
       `SELECT u.pkusuario, u.username, u.password_hash, u.pkcliente,
               u.activo, u.bloqueado,
-              c.nomcliente, c.codcliente, c.numerodni
+              c.nomcliente, c.codcliente, c.numerodocumentoidentidad
        FROM usuarios_homebanking u
        JOIN dcliente c ON c.pkcliente = u.pkcliente
        WHERE u.username = $1`,
@@ -59,7 +59,7 @@ const login = async (req, res) => {
         nombre: user.nomcliente,
         first_name: user.nomcliente,
         username: user.username,
-        dni: user.numerodni
+        dni: user.numerodocumentoidentidad
       }
     });
 
@@ -74,7 +74,7 @@ const perfil = async (req, res) => {
   try {
     const result = await pool.query(
       `SELECT c.codcliente, c.nomcliente, c.fecnacimiento,
-              c.numerodni, c.celular, c.correo
+              c.numerodocumentoidentidad, c.celular, c.correo
        FROM dcliente c
        WHERE c.pkcliente = $1`,
       [req.usuario.pkcliente]
